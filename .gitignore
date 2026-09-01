@@ -1,0 +1,16 @@
+## .NET
+bin/
+obj/
+*.user
+
+## Visual Studio / Rider
+.vs/
+.idea/
+
+## EF Core
+*.mdf
+*.ldf
+
+## Secrets — never commit real connection strings/passwords
+appsettings.Development.json
+appsettings.*.local.json
