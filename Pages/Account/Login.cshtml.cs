@@ -9,10 +9,12 @@ namespace UCTAttendanceRegister.Pages.Account;
 public class LoginModel : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public LoginModel(SignInManager<ApplicationUser> signInManager)
+    public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
     {
         _signInManager = signInManager;
+        _userManager = userManager;
     }
 
     [BindProperty]
@@ -47,7 +49,14 @@ public class LoginModel : PageModel
 
         if (result.Succeeded)
         {
-            return RedirectToPage("/Index");
+                  var signedInUser = await _userManager.FindByEmailAsync(Input.Email);
+
+    if (signedInUser != null && await _userManager.IsInRoleAsync(signedInUser, "Student"))
+        return RedirectToPage("/Student/Dashboard");
+
+    return RedirectToPage("/Lecturer/Dashboard");
+
+            return RedirectToPage("/Lecturer/Dashboard");
         }
 
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");

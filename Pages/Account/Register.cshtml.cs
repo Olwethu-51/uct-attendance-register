@@ -94,7 +94,7 @@ public class RegisterModel : PageModel
 
         if (Input.Role == "Student")
         {
-            _context.Students.Add(new Student
+            _context.Students.Add(new UCTAttendanceRegister.Models.Student
             {
                 StudentNumber = Input.StudentNumber!,
                 FullName = Input.FullName,
@@ -104,7 +104,7 @@ public class RegisterModel : PageModel
         }
         else
         {
-            _context.Lecturers.Add(new Lecturer
+            _context.Lecturers.Add(new UCTAttendanceRegister.Models.Lecturer
             {
                 FullName = Input.FullName,
                 Email = Input.Email,
@@ -118,6 +118,8 @@ public class RegisterModel : PageModel
 
         // Redirect to Index for now — will point to the role-specific
         // dashboard once Student/Lecturer Dashboard pages exist.
-        return RedirectToPage("/Index");
+         return Input.Role == "Student"
+            ? RedirectToPage("/Student/Dashboard")
+            : RedirectToPage("/Lecturer/Dashboard");
     }
 }

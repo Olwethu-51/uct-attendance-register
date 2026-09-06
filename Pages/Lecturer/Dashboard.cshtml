@@ -1,0 +1,38 @@
+@page
+@model UCTAttendanceRegister.Pages.Lecturer.DashboardModel
+@{
+    ViewData["Title"] = "Lecturer Dashboard";
+}
+
+<h1>Welcome, @Model.CurrentLecturer?.FullName</h1>
+
+<h2>Your Courses</h2>
+
+@if (!Model.Courses.Any())
+{
+    <p>You haven't created any courses yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Course Name</th>
+                <th>Minimum Attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model.Courses)
+            {
+                <tr>
+                    <td>@course.CourseCode</td>
+                    <td>@course.CourseName</td>
+                    <td>@course.MinimumAttendancePercentage%</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-page="/Lecturer/Courses" class="btn btn-primary">Manage Courses</a>

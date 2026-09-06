@@ -1,0 +1,37 @@
+@page
+@model UCTAttendanceRegister.Pages.Student.DashboardModel
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<h1>Welcome, @Model.CurrentStudent?.FullName</h1>
+<p>Student Number: @Model.CurrentStudent?.StudentNumber</p>
+
+<h2>Your Courses</h2>
+
+@if (!Model.EnrolledCourses.Any())
+{
+    <p>You are not yet enrolled in any courses.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Course Name</th>
+                <th>Minimum Attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model.EnrolledCourses)
+            {
+                <tr>
+                    <td>@course.CourseCode</td>
+                    <td>@course.CourseName</td>
+                    <td>@course.MinimumAttendancePercentage%</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
