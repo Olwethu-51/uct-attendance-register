@@ -1,0 +1,28 @@
+@page
+@model UCTAttendanceRegister.Pages.Student.CheckInModel
+@{
+    ViewData["Title"] = "Check In";
+}
+
+<h1>Attendance Check-In</h1>
+
+@if (Model.StatusMessage != null)
+{
+    <div class="alert @(Model.CheckedInSuccessfully ? "alert-success" : "alert-danger")">
+        @Model.StatusMessage
+    </div>
+}
+
+@if (!Model.CheckedInSuccessfully)
+{
+    <p>Scan the QR code shown by your lecturer, or enter the session code below.</p>
+
+    <form method="post">
+        <div class="form-group mb-3">
+            <label asp-for="Input.SessionCode"></label>
+            <input asp-for="Input.SessionCode" class="form-control" placeholder="e.g. A7K2P9" style="text-transform:uppercase;" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Check In</button>
+    </form>
+}

@@ -1,0 +1,72 @@
+@page
+@model UCTAttendanceRegister.Pages.Lecturer.CoursesModel
+@{
+    ViewData["Title"] = "Manage Courses";
+}
+
+<h1>Manage Courses</h1>
+<a asp-page="/Lecturer/Lectures" class="btn btn-secondary mb-3">Schedule Lectures</a>
+
+<h2>Create a New Course</h2>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Input.CourseCode"></label>
+        <input asp-for="Input.CourseCode" class="form-control" />
+        <span asp-validation-for="Input.CourseCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Input.CourseName"></label>
+        <input asp-for="Input.CourseName" class="form-control" />
+        <span asp-validation-for="Input.CourseName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Input.MinimumAttendancePercentage"></label>
+        <input asp-for="Input.MinimumAttendancePercentage" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Input.MinimumAttendancePercentage" class="text-danger"></span>
+        <small class="form-text text-muted">
+            This is the DP attendance requirement for this specific course — set it based on your course's own DP rules, not a university-wide default.
+        </small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Course</button>
+</form>
+
+<hr />
+
+<h2>Your Courses</h2>
+
+@if (!Model.Courses.Any())
+{
+    <p>No courses yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Min. Attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model.Courses)
+            {
+                <tr>
+                    <td>@course.CourseCode</td>
+                    <td>@course.CourseName</td>
+                    <td>@course.MinimumAttendancePercentage%</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

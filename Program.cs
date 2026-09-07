@@ -2,8 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UCTAttendanceRegister.Data;
 using UCTAttendanceRegister.Models;
+using UCTAttendanceRegister.Services;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<AttendanceSessionService>();
 
 // Database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

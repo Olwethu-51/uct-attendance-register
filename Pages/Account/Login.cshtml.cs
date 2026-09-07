@@ -48,16 +48,14 @@ public class LoginModel : PageModel
             Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
         if (result.Succeeded)
-        {
-                  var signedInUser = await _userManager.FindByEmailAsync(Input.Email);
+{
+    var signedInUser = await _userManager.FindByEmailAsync(Input.Email);
 
     if (signedInUser != null && await _userManager.IsInRoleAsync(signedInUser, "Student"))
         return RedirectToPage("/Student/Dashboard");
 
     return RedirectToPage("/Lecturer/Dashboard");
-
-            return RedirectToPage("/Lecturer/Dashboard");
-        }
+}
 
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         return Page();

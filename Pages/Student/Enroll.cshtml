@@ -1,0 +1,45 @@
+@page
+@model UCTAttendanceRegister.Pages.Student.EnrollModel
+@{
+    ViewData["Title"] = "Enroll in Courses";
+}
+
+<h1>Enroll in Courses</h1>
+
+@if (Model.StatusMessage != null)
+{
+    <div class="alert alert-success">@Model.StatusMessage</div>
+}
+
+@if (!Model.AvailableCourses.Any())
+{
+    <p>No new courses available to enroll in.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Course Name</th>
+                <th>Minimum Attendance</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model.AvailableCourses)
+            {
+                <tr>
+                    <td>@course.CourseCode</td>
+                    <td>@course.CourseName</td>
+                    <td>@course.MinimumAttendancePercentage%</td>
+                    <td>
+                        <form method="post" asp-route-courseId="@course.CourseId">
+                            <button type="submit" class="btn btn-sm btn-primary">Enroll</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

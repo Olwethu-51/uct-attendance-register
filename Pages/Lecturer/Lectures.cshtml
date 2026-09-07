@@ -1,0 +1,90 @@
+@page
+@model UCTAttendanceRegister.Pages.Lecturer.LecturesModel
+@{
+    ViewData["Title"] = "Schedule Lectures";
+}
+
+<h1>Schedule Lectures</h1>
+
+@if (!Model.CourseOptions.Any())
+{
+    <p>You need to <a asp-page="/Lecturer/Courses">create a course</a> before scheduling lectures.</p>
+}
+else
+{
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Input.CourseId"></label>
+            <select asp-for="Input.CourseId" asp-items="Model.CourseOptions" class="form-control">
+                <option value="">-- Select Course --</option>
+            </select>
+            <span asp-validation-for="Input.CourseId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+    <label asp-for="Input.StartTime"></label>
+    <input asp-for="Input.StartTime" type="datetime-local" class="form-control" />
+    <span asp-validation-for="Input.StartTime" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="Input.EndTime"></label>
+    <input asp-for="Input.EndTime" type="datetime-local" class="form-control" />
+    <span asp-validation-for="Input.EndTime" class="text-danger"></span>
+</div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Input.Venue"></label>
+            <input asp-for="Input.Venue" class="form-control" />
+            <span asp-validation-for="Input.Venue" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Schedule Lecture</button>
+    </form>
+}
+
+<hr />
+
+<h2>Scheduled Lectures</h2>
+
+@if (!Model.Lectures.Any())
+{
+    <p>No lectures scheduled yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Venue</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+         @foreach (var lecture in Model.Lectures)
+{
+    <tr>
+        <td>@lecture.Course.CourseCode</td>
+        <td>@lecture.StartTime.ToString("g")</td>
+        <td>@lecture.EndTime.ToString("g")</td>
+        <td>@lecture.Venue</td>
+        <td>
+            <a asp-page="/Lecturer/OpenSession" asp-route-lectureId="@lecture.LectureId" class="btn btn-sm btn-primary">
+                Open Attendance
+            </a>
+        </td>
+    </tr>
+}
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

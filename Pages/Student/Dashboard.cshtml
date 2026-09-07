@@ -7,6 +7,9 @@
 <h1>Welcome, @Model.CurrentStudent?.FullName</h1>
 <p>Student Number: @Model.CurrentStudent?.StudentNumber</p>
 
+<a asp-page="/Student/Enroll" class="btn btn-primary">Enroll in Courses</a>
+<a asp-page="/Student/CheckIn" class="btn btn-secondary">Check In to Lecture</a>
+
 <h2>Your Courses</h2>
 
 @if (!Model.EnrolledCourses.Any())

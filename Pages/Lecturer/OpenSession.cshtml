@@ -1,0 +1,41 @@
+@page
+@model UCTAttendanceRegister.Pages.Lecturer.OpenSessionModel
+@{
+    ViewData["Title"] = "Open Attendance Session";
+}
+
+<h1>Open Attendance Session</h1>
+
+@if (Model.SelectedLecture != null)
+{
+    <p>
+        <strong>@Model.SelectedLecture.Course.CourseCode</strong> —
+        @Model.SelectedLecture.StartTime.ToString("g") at @Model.SelectedLecture.Venue
+    </p>
+
+    @if (Model.Session == null)
+    {
+        <form method="post" asp-page-handler="Open" asp-route-lectureId="@Model.SelectedLecture.LectureId">
+            <button type="submit" class="btn btn-primary">Start Attendance Session (valid 15 minutes)</button>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Session is open until <strong>@Model.Session.ExpiresAt.ToLocalTime().ToString("T")</strong>.
+        </div>
+
+        <h3>Session Code</h3>
+        <p style="font-size: 2rem; font-weight: bold; letter-spacing: 0.2em;">@Model.Session.SessionCode</p>
+
+        <h3>QR Code</h3>
+        @if (Model.QrImageBase64 != null)
+        {
+            <img src="data:image/png;base64,@Model.QrImageBase64" alt="Attendance QR Code" style="max-width: 300px;" />
+        }
+
+        <form method="post" asp-page-handler="Open" asp-route-lectureId="@Model.SelectedLecture.LectureId" class="mt-3">
+            <button type="submit" class="btn btn-outline-secondary">Regenerate Session</button>
+        </form>
+    }
+}
